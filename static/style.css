@@ -1,4 +1,4 @@
-/* ===== IMPORTS ===== */
+﻿/* ===== IMPORTS ===== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* ===== ROOT VARIABLES ===== */
@@ -30,7 +30,6 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ===== RESET & BASE ===== */
 * {
     margin: 0;
     padding: 0;
@@ -50,7 +49,6 @@ body {
     overflow: hidden;
 }
 
-/* Animated background */
 body::before {
     content: '';
     position: fixed;
@@ -72,7 +70,6 @@ body::before {
     66% { transform: translate(-2%, 2%) rotate(-2deg); }
 }
 
-/* ===== APP CONTAINER ===== */
 .app-container {
     display: flex;
     width: 100%;
@@ -89,7 +86,6 @@ body::before {
     z-index: 1;
 }
 
-/* ===== SIDEBAR ===== */
 .sidebar-modern {
     width: 280px;
     background: rgba(0, 0, 0, 0.3);
@@ -148,68 +144,6 @@ body::before {
     -webkit-text-fill-color: var(--text-secondary);
 }
 
-.sidebar-nav {
-    flex: 1;
-}
-
-.nav-section {
-    margin-bottom: 24px;
-}
-
-.nav-section h4 {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.nav-section h4 i {
-    font-size: 12px;
-}
-
-.nav-list {
-    list-style: none;
-}
-
-.nav-list li {
-    padding: 8px 12px;
-    font-size: 13px;
-    color: var(--text-secondary);
-    border-radius: var(--radius-sm);
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: default;
-}
-
-.nav-list li:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
-    transform: translateX(4px);
-}
-
-.nav-list li i {
-    font-size: 14px;
-    color: var(--primary-light);
-    width: 20px;
-}
-
-.error-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-
-
 .sidebar-footer {
     padding-top: 20px;
     border-top: 1px solid var(--glass-border);
@@ -262,7 +196,6 @@ body::before {
     50% { opacity: 0.5; transform: scale(0.8); }
 }
 
-/* ===== CHAT MAIN ===== */
 .chat-main {
     flex: 1;
     display: flex;
@@ -270,7 +203,6 @@ body::before {
     min-width: 0;
 }
 
-/* Chat Header */
 .chat-header {
     padding: 16px 28px;
     border-bottom: 1px solid var(--glass-border);
@@ -342,7 +274,6 @@ body::before {
     transform: rotate(30deg);
 }
 
-/* Chat Messages */
 .chat-messages-modern {
     flex: 1;
     padding: 24px 28px;
@@ -350,7 +281,6 @@ body::before {
     background: rgba(0, 0, 0, 0.1);
 }
 
-/* Scrollbar styling */
 .chat-messages-modern::-webkit-scrollbar {
     width: 4px;
 }
@@ -364,7 +294,6 @@ body::before {
     border-radius: 10px;
 }
 
-/* Welcome Message */
 .welcome-message {
     text-align: center;
     padding: 40px 20px;
@@ -437,7 +366,6 @@ body::before {
     margin-right: 6px;
 }
 
-/* Message Bubbles */
 .message {
     margin-bottom: 16px;
     display: flex;
@@ -495,7 +423,6 @@ body::before {
     margin: 2px 0;
 }
 
-/* ===== CHAT INPUT ===== */
 .chat-input-modern {
     padding: 16px 28px 20px;
     border-top: 1px solid var(--glass-border);
@@ -575,39 +502,6 @@ body::before {
     transform: none;
 }
 
-.input-suggestions {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-    flex-wrap: wrap;
-}
-
-.suggestion {
-    padding: 4px 14px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-full);
-    font-size: 12px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.suggestion:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--text-primary);
-    transform: translateY(-2px);
-}
-
-.suggestion i {
-    font-size: 11px;
-    color: var(--warning);
-}
-
-/* ===== TYPING INDICATOR ===== */
 .typing-indicator {
     position: fixed;
     bottom: 100px;
@@ -661,7 +555,6 @@ body::before {
     color: var(--text-secondary);
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .sidebar-modern {
         width: 240px;
@@ -703,10 +596,6 @@ body::before {
         font-size: 22px;
     }
     
-    .input-suggestions {
-        display: none;
-    }
-    
     .btn-send span {
         display: none;
     }
@@ -746,12 +635,10 @@ body::before {
     }
 }
 
-/* ===== UTILITY CLASSES ===== */
 .hidden {
     display: none !important;
 }
 
-/* Scrollbar for sidebar */
 .sidebar-modern::-webkit-scrollbar {
     width: 3px;
 }

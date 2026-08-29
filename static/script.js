@@ -1,4 +1,4 @@
-// DebugBot - Modern Frontend JavaScript
+﻿// DebugBot - Modern Frontend JavaScript
 
 class DebugBot {
     constructor() {
@@ -14,10 +14,8 @@ class DebugBot {
     }
 
     setupEventListeners() {
-        // Send message
         this.sendBtn.addEventListener('click', () => this.sendMessage());
         
-        // Enter key to send
         this.userInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -25,16 +23,13 @@ class DebugBot {
             }
         });
 
-        // Clear history
         this.clearBtn.addEventListener('click', () => this.clearHistory());
 
-        // Refresh button
         const refreshBtn = document.getElementById('refreshBtn');
         if (refreshBtn) {
             refreshBtn.addEventListener('click', () => this.refreshChat());
         }
 
-        // Help button
         const helpBtn = document.getElementById('helpBtn');
         if (helpBtn) {
             helpBtn.addEventListener('click', () => this.showHelp());
@@ -58,16 +53,13 @@ class DebugBot {
             return;
         }
 
-        // Clear input
         this.userInput.value = '';
         this.userInput.style.height = 'auto';
         this.setLoadingState(true);
 
-        // Add user message
         this.addMessage(message, 'user');
         this.scrollToBottom();
 
-        // Show typing indicator
         this.showTyping(true);
 
         try {
@@ -85,7 +77,6 @@ class DebugBot {
 
             const data = await response.json();
 
-            // Hide typing indicator
             this.showTyping(false);
 
             if (data.exit) {
@@ -114,7 +105,6 @@ class DebugBot {
     }
 
     addMessage(text, sender) {
-        // Remove welcome message if it exists
         const welcomeMsg = document.querySelector('.welcome-message');
         if (welcomeMsg && this.chatMessages.children.length === 1) {
             welcomeMsg.remove();
@@ -130,7 +120,6 @@ class DebugBot {
         strong.textContent = sender === 'user' ? '👤 You' : '🤖 DebugBot';
         contentDiv.appendChild(strong);
         
-        // Format message with paragraphs
         const paragraphs = text.split('\n').filter(p => p.trim());
         paragraphs.forEach(p => {
             const pElement = document.createElement('p');
@@ -171,12 +160,10 @@ class DebugBot {
             });
 
             if (response.ok) {
-                // Clear messages
                 while (this.chatMessages.children.length > 0) {
                     this.chatMessages.removeChild(this.chatMessages.firstChild);
                 }
                 
-                // Add welcome message back
                 this.chatMessages.innerHTML = `
                     <div class="welcome-message">
                         <div class="welcome-icon">
@@ -227,7 +214,6 @@ class DebugBot {
     }
 
     showNotification(message) {
-        // Create a toast notification
         const toast = document.createElement('div');
         toast.style.cssText = `
             position: fixed;
@@ -246,7 +232,6 @@ class DebugBot {
         `;
         toast.textContent = message;
         
-        // Add animation
         const style = document.createElement('style');
         style.textContent = `
             @keyframes slideInUp {
@@ -258,7 +243,6 @@ class DebugBot {
         
         document.body.appendChild(toast);
         
-        // Remove after 2 seconds
         setTimeout(() => {
             toast.style.opacity = '0';
             toast.style.transform = 'translateY(-20px)';
@@ -274,32 +258,29 @@ class DebugBot {
     }
 }
 
-// Global function for suggestion clicks
 function fillSuggestion(text) {
     const input = document.getElementById('userInput');
     if (input) {
         input.value = text;
         input.focus();
-        // Trigger send automatically after a small delay
         setTimeout(() => {
             const bot = document.querySelector('.chat-messages-modern')?.__botInstance;
             if (bot) {
                 bot.sendMessage();
             } else {
-                // Fallback: trigger click on send button
                 document.getElementById('sendBtn')?.click();
             }
         }, 300);
     }
 }
 
-// Initialize the chatbot
 document.addEventListener('DOMContentLoaded', () => {
     const bot = new DebugBot();
-    // Store instance for suggestion clicks
-    document.querySelector('.chat-messages-modern').__botInstance = bot;
+    const messagesContainer = document.querySelector('.chat-messages-modern');
+    if (messagesContainer) {
+        messagesContainer.__botInstance = bot;
+    }
     
-    // Add keyboard shortcut Ctrl+/
     document.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key === '/') {
             e.preventDefault();

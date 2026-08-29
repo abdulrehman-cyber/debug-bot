@@ -17,9 +17,9 @@ if API_KEY:
     genai.configure(api_key=API_KEY)
     # Try different model names
     try:
-        model = genai.GenerativeModel('gemini-pro')
-    except:
         model = genai.GenerativeModel('gemini-3.5-flash')
+    except:
+        model = genai.GenerativeModel('gemini-1.5-flash')
 
 personality = """You are DebugBot, a friendly AI assistant for Pakistani students learning Python debugging."""
 

@@ -13,7 +13,7 @@ if not API_KEY:
 if API_KEY:
     genai.configure(api_key=API_KEY)
     try:
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel('gemini-3.5-flash')
     except:
         model = genai.GenerativeModel('gemini-1.5-flash')
 

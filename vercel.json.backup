@@ -3,12 +3,25 @@
   "builds": [
     {
       "src": "app.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "pythonVersion": "3.12"
+      }
     }
   ],
   "routes": [
     {
-      "src": "/",
+      "src": "/static/(.*)",
+      "dest": "static/$1"
+    },
+    {
+      "src": "/clear_history",
+      "methods": ["POST"],
+      "dest": "app.py"
+    },
+    {
+      "src": "/chat",
+      "methods": ["POST"],
       "dest": "app.py"
     },
     {

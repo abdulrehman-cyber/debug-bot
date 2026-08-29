@@ -3,7 +3,12 @@ from flask import Flask, request, jsonify, send_from_directory, render_template
 from flask_cors import CORS
 import google.generativeai as genai
 
-app = Flask(__name__, static_folder='../static', template_folder='../templates')
+# Get the absolute path of the current directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+app = Flask(__name__, 
+            static_folder=os.path.join(BASE_DIR, 'static'),
+            template_folder=os.path.join(BASE_DIR, 'templates'))
 CORS(app)
 
 API_KEY = os.getenv("GEMINI_API_KEY")
@@ -13,12 +18,12 @@ if not API_KEY:
 if API_KEY:
     genai.configure(api_key=API_KEY)
     try:
-        model = genai.GenerativeModel('gemini-2.0-flash-exp')
+        model = genai.GenerativeModel('gemini-3.5-flash')
     except:
         try:
             model = genai.GenerativeModel('gemini-1.5-flash')
         except:
-            model = genai.GenerativeModel('gemini-3.5-flash')
+            model = genai.GenerativeModel('gemini-pro')
 
 history = []
 
@@ -28,13 +33,13 @@ def index():
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
-    return send_from_directory('../static', filename)
+    return send_from_directory(os.path.join(BASE_DIR, 'static'), filename)
 
 @app.route('/chat', methods=['POST'])
 def chat():
     if not API_KEY:
         return jsonify({
-            'response': '⚠️ API Key not configured. Please add GEMINI_API_KEY in Vercel environment variables.'
+            'response': '⚠️ API Key not configured. Please add GEMINI_API_KEY in environment variables.'
         })
     
     data = request.json

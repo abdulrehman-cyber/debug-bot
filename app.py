@@ -1,30 +1,27 @@
 import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from dotenv import load_dotenv
 import google.generativeai as genai
 
-# Load environment variables
-load_dotenv()
-
-# Create Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 CORS(app)
 
-# Get API key
+# Get API key from environment
 API_KEY = os.getenv("GEMINI_API_KEY")
 if not API_KEY:
-    print("❌ ERROR: No API key found in .env file!")
-    print("Please create .env file with GEMINI_API_KEY=your_key_here")
-    exit(1)
+    print("❌ GEMINI_API_KEY not set in environment")
+    # Don't exit, but return error for API calls
 
 # Configure Gemini
-genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-3.5-flash')
+if API_KEY:
+    genai.configure(api_key=API_KEY)
+    # Try different model names
+    try:
+        model = genai.GenerativeModel('gemini-pro')
+    except:
+        model = genai.GenerativeModel('gemini-3.5-flash')
 
-# Personality
-personality = """You are DebugBot, a friendly AI assistant for Pakistani students learning Python debugging. 
-You explain things in simple English mixed with Urdu when needed. Keep answers short and helpful."""
+personality = """You are DebugBot, a friendly AI assistant for Pakistani students learning Python debugging."""
 
 history = []
 
@@ -34,32 +31,25 @@ def index():
 
 @app.route('/style.css')
 def css():
-    return send_from_directory('.', 'style.css')
+    return send_from_directory('static', 'style.css')
 
 @app.route('/script.js')
 def js():
-    return send_from_directory('.', 'script.js')
+    return send_from_directory('static', 'script.js')
 
 @app.route('/chat', methods=['POST'])
 def chat():
+    if not API_KEY:
+        return jsonify({'response': 'API Key not configured. Please set GEMINI_API_KEY in environment variables.'})
+    
     data = request.json
     user_message = data.get('message', '')
     
     if not user_message.strip():
         return jsonify({'response': 'Please type something!'})
     
-    if user_message.lower() == 'exit':
-        return jsonify({'response': 'Allah Hafiz! Keep debugging!', 'exit': True})
-    
-    # Build prompt with context
-    if not history:
-        prompt = personality + "\n\nUser: " + user_message
-    else:
-        context = "Previous conversation:\n"
-        for i, msg in enumerate(history[-3:]):
-            context += f"User: {msg}\n"
-        prompt = context + "\nUser: " + user_message
-    
+    # Build prompt
+    prompt = personality + "\n\nUser: " + user_message
     history.append(user_message)
     
     try:
@@ -75,5 +65,4 @@ def clear():
     return jsonify({'success': True})
 
 if __name__ == '__main__':
-   
     app.run(debug=True, port=5000)
